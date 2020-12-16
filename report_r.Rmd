@@ -1,0 +1,72 @@
+---
+title: "Belmont_tfcb_homework08_q3"
+author: "Laura Belmont"
+date: "12/16/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Report 2: Histologic grade among the most posterior tumors
+
+This report will focus on the following question: What is the average histologic grade of the top 25% most posteriorly-located tumors, regardless of subtype?
+
+   This question was chosen because a positive correlation between histologic grade and location along the anterior-posterior location was identified by the authors. Therefore, I wanted to see what the histologic grade was among the most posterior tumors. I chose top 25% as a cutoff. For this analysis, I chose to use y-axis normalized distance for anterior-posterior lcoation, as the authors used that variable to define the anterior-posterior location categories, but the y-axis normalized distance retains more detail regarding specific location along that axis.
+
+
+## Question 3: 
+
+Histologic grade and posterior location were also found to be positively correlated. What is the average histologic grade of the top 25% most posteriorly-located tumors, regardless of subtype?
+
+```{r}
+#I will begin by setting up the code, including with my file.
+library(readxl)
+library(ggplot2)
+library(tidyverse)
+tnbc_df = data.frame(read_excel("data/tumor_location_raw_data_final.xls"))%>%
+  print()
+```
+```{r}
+#Next, I will want to take a subset of that dataframe that includes histologic grade, y_normalized, and subtype. My question is regardless of subtype, but I am including the column as a sanity check. I am again using y normalized distance instead of AP location because AP location has only 3 possible values, and thus cannot give me a top 25%.
+column_subset <- c("Y_normalized","Histologic_full","Subtype_1_ER_positive_3_triple_negative")
+tnbc_subset<-tnbc_df[column_subset]%>%
+  print()
+```
+```{r}
+#Next, I will want to keep rows that have a value in the bottom 25% of the y_normalized column, since I want to look at most posteriorly-located tumors and shortest distance means most posterior.
+quantile(tnbc_subset$Y_normalized)
+
+#Quantile gives the 25% value as 0.1. Therefore, I will expect the dataframe subsetted by quantile to only show values less than or equal to 0.1
+tnbc_subset_y_norm <- subset(tnbc_subset, Y_normalized <= quantile(Y_normalized, 0.25),
+                             select=Y_normalized:Subtype_1_ER_positive_3_triple_negative)
+print(tnbc_subset_y_norm)
+
+#Referenced this https://stackoverflow.com/questions/6253837/subset-data-frame-based-on-percentage for help setting up this order.
+```
+```{r}
+#Now, all that remains is identifying the average histologic grade.  I will also visualize it with a box and whisker plot.
+#The plot will be exported here, and I will display it in-file in the next chunk.
+mean(tnbc_subset_y_norm[["Histologic_full"]])%>%
+  print()
+jpeg(file="Q3Boxplot.jpeg")
+boxplot(tnbc_subset_y_norm$Histologic_full, main= "Histologic grade of top 25% most posterior tumors", ylab="Histologic Grade", col="light blue")
+dev.off()
+```
+
+```{r}
+boxplot(tnbc_subset_y_norm$Histologic_full, main= "Histologic grade of top 25% most posterior tumors", ylab="Histologic Grade", col="light blue")
+```
+## Question 3 Summary
+
+In Question 3, I began by subsetting my data to only include the relevant columns of histologic grade, y-axis normalized distance, and also tumor subtype (as a sanity check to ensure I was getting tumors of both 1 and 3 subtype). I then took a subset of this data in which I only kept rows which corresponded with the 25th percentile of y-axis normalized distance. Since I only was looking for the mean histologic grade, I calculated this value and decided to visualize the overall data distribution with a box plot to provide additional context for the data, such as values of median and quartiles.
+
+# Reproducibility
+
+The analysis I conducted is reasonably reproducible, as I have provided a comment for each chunk detailing what I am doing in the given chunk. Further reproducibility could be improved by doing a line-by-line comment instead of a chunk-by-chunk. As for other reproducibility tenets, I have encapsulated everything in one directory, yet separated my data and code. I have used relative paths, rather than absolute paths, and I have also included a readme file explaining where things are located. My files are organized and named appropriately. I changed column names and file names where needed to ensure easier manipulation with code. While a tsv or csv file format is ideal for use with Python and R, I kept the file in its original excel format to minimize any issues with data loss since I knew how to import excel files as is.
+
+The analysis of the original paper is somewhat reproducible. The file name and a couple column names needed editing for further analysis, but otherwise, the data was properly formatted for easy use. They describe how some data processing occurred (i.e. how they normalized axis distances, what they performed linear regression with, etc), however, some decisions remain vague. For instance, while the y-axis normalized distance was used to determine anterior-posterior location, they do not state the cutoffs used to categorize tumors as anterior, middle, or posterior. Further, they do not provide any code or calculations for their data analysis.
