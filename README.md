@@ -20,7 +20,7 @@ Kim WH, Han W, Chang JM, Cho N, Park IA, Moon WK (2015) Location of Triple-Negat
 
 ### Overall, I answer three questions in this analysis: 
 
-Question 1: This paper finds triple-negative breast cancers have a tendency toward a posterior or prepectoral location; they also note an association between mammographic density and posterior location. If looking at just the "middle" data along the anterior-posterior axis, how does the mean mammographic density vary by tumor subtype?
+Question 1: This paper finds triple-negative breast cancers have a tendency toward a posterior or prepectoral location; they also note an association between mammographic density and posterior location. If looking at just the "middle" data along the anterior-posterior axis, how does the median mammographic density vary by tumor subtype?
 
 Question 2: The paper focuses on relationship between location and tumor subtype. Does this change or become more pronounced when looking exclusively at the largest and smallest extremes (top and bottom 10%, respectively) of tumor size within each tumor subtype?
 
