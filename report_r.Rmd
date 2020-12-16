@@ -28,7 +28,7 @@ Histologic grade and posterior location were also found to be positively correla
 library(readxl)
 library(ggplot2)
 library(tidyverse)
-tnbc_df = data.frame(read_excel("data/tumor_location_raw_data_final.xls"))%>%
+tnbc_df = data.frame(read_excel("tumor_location_raw_data_final.xls"))%>%
   print()
 ```
 ```{r}
@@ -67,6 +67,6 @@ In Question 3, I began by subsetting my data to only include the relevant column
 
 # Reproducibility
 
-The analysis I conducted is reasonably reproducible, as I have provided a comment for each chunk detailing what I am doing in the given chunk. Further reproducibility could be improved by doing a line-by-line comment instead of a chunk-by-chunk. As for other reproducibility tenets, I have encapsulated everything in one directory, yet separated my data and code. I have used relative paths, rather than absolute paths, and I have also included a readme file explaining where things are located. My files are organized and named appropriately. I changed column names and file names where needed to ensure easier manipulation with code. While a tsv or csv file format is ideal for use with Python and R, I kept the file in its original excel format to minimize any issues with data loss since I knew how to import excel files as is.
+The analysis I conducted is reasonably reproducible, as I have provided a comment for each chunk detailing what I am doing in the given chunk. Further reproducibility could be improved by doing a line-by-line comment instead of a chunk-by-chunk. As for other reproducibility tenets, I have encapsulated everything in one directory, yet separated my data and code. I have also included a readme file explaining where things are located. My files are organized and named appropriately. I changed column names and file names where needed to ensure easier manipulation with code. While a tsv or csv file format is ideal for use with Python and R, I kept the file in its original excel format to minimize any issues with data loss since I knew how to import excel files as is.
 
 The analysis of the original paper is somewhat reproducible. The file name and a couple column names needed editing for further analysis, but otherwise, the data was properly formatted for easy use. They describe how some data processing occurred (i.e. how they normalized axis distances, what they performed linear regression with, etc), however, some decisions remain vague. For instance, while the y-axis normalized distance was used to determine anterior-posterior location, they do not state the cutoffs used to categorize tumors as anterior, middle, or posterior. Further, they do not provide any code or calculations for their data analysis.
